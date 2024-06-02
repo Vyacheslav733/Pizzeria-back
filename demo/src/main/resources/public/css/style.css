@@ -1,0 +1,67 @@
+html,
+body {
+    height: 100%;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1.25em;
+}
+
+h3 {
+    font-size: 1.1em;
+}
+
+td form {
+    margin: 0;
+    padding: 0;
+    margin-top: -.25em;
+}
+
+.button-fixed-width {
+    width: 150px;
+}
+
+.button-link {
+    padding: 0;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+.w-10 {
+    width: 10% !important;
+}
+
+.my-navbar {
+    background-color: #3c3c3c !important;
+}
+
+.my-navbar .link a:hover {
+    text-decoration: underline;
+}
+
+.my-navbar .logo {
+    width: 26px;
+    height: 26px;
+}
+
+.my-footer {
+    background-color: #2c2c2c;
+    height: 32px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.cart-image {
+    width: 3.1rem;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+}
+
+.cart-item {
+    height: auto;
+}

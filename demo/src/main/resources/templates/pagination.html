@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <th:block th:fragment="pagination (url, totalPages, currentPage)">
+        <nav th:if="${totalPages > 1}" th:with="
+                                    maxPage=2,
+                                    currentPage=${currentPage + 1}">
+            <ul class="pagination justify-content-center"
+                th:with="
+                                            seqFrom=${currentPage - maxPage < 1 ? 1 : currentPage - maxPage},
+                                            seqTo=${currentPage + maxPage > totalPages ? totalPages : currentPage + maxPage}">
+                <th:block th:if="${currentPage > maxPage + 1}">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Previous" th:href="@{/{url}?page=0(url=${url})}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-label="Previous">
+                            <span aria-hidden="true">&hellip;</span>
+                        </span>
+                    </li>
+                </th:block>
+                <li class="page-item" th:each="page : ${#numbers.sequence(seqFrom, seqTo)}"
+                    th:classappend="${page == currentPage} ? 'active' : ''">
+                    <a class=" page-link" th:href="@{/{url}?page={page}(url=${url},page=${page - 1})}">
+                        <span th:text="${page}" />
+                    </a>
+                </li>
+                <th:block th:if="${currentPage < totalPages - maxPage}">
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-label="Previous">
+                            <span aria-hidden="true">&hellip;</span>
+                        </span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next"
+                            th:href="@{/{url}?page={page}(url=${url},page=${totalPages - 1})}">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </th:block>
+            </ul>
+        </nav>
+    </th:block>
+
+</body>
+
+</html>

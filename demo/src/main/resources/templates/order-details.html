@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{default}">
+
+<body>
+    <main layout:fragment="content">
+        <button class="btn btn-link button-link" onclick="history.back()">Назад</button>
+        <h1>Заказ №[[${order.id}]], [[${#dates.format(order.date, 'HH:mm dd-MM-yyyy')}]]</h1>
+        <th:block th:switch="${items.size()}">
+            <h2 th:case="0">Товары заказа отсутствуют</h2>
+            <th:block th:case="*">
+                <table class="table mt-2">
+                    <caption></caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="w-auto">Название товара</th>
+                            <th scope="col" class="w-10">Цена</th>
+                            <th scope="col" class="w-10">Количество</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${items}">
+                            <td th:text="${item.productName}"></td>
+                            <td th:text="${#numbers.formatDecimal(item.productPrice, 1, 2)}"></td>
+                            <td th:text="${item.quantity}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </th:block>
+            <th:block th:replace="~{ pagination :: pagination (
+                                                url='',
+                                                totalPages=${totalPages},
+                                                currentPage=${currentPage}) }" />
+        <h2>Итого: [[${#numbers.formatDecimal(order.total, 1, 2)}]] руб</h2>
+        </th:block>
+    </main>
+</body>
+
+</html>

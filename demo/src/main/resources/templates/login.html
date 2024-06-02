@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+
+<head>
+    <title>Вход</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <form action="#" th:action="@{/login}" method="post">
+            <div th:if="${param.error}" class="alert alert-danger">
+                Неверный логин или пароль
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success">
+                Выход успешно произведен
+            </div>
+            <div th:if="${param.signup}" class="alert alert-success">
+                Пользователь успешно создан
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Имя пользователя</label>
+                <input type="text" id="username" name="username" class="form-control" required minlength="3"
+                    maxlength="20">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Пароль</label>
+                <input type="password" id="password" name="password" class="form-control" required minlength="3"
+                    maxlength="20">
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="remember-me" name="remember-me" checked>
+                <label class="form-check-label" for="remember-me">Запомнить меня</label>
+            </div>
+            <div class="mb-3 d-flex flex-row">
+                <button class="btn btn-primary me-2 button-fixed-width" type="submit">Войти</button>
+                <a class="btn btn-secondary button-fixed-width" href="/signup">Регистрация</a>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>
+
+</html>

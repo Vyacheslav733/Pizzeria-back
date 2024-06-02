@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+
+<head>
+  <title>Продукты</title>
+</head>
+
+<body>
+  <main layout:fragment="content">
+    <th:block th:switch="${items.size()}">
+      <h2 th:case="0">Данные отсутствуют</h2>
+      <th:block th:case="*">
+        <h2>Продукты</h2>
+        <div>
+          <a href="/admin/product/edit/" class="btn btn-primary">Добавить продукт</a>
+        </div>
+        <table class="table">
+          <caption></caption>
+          <thead>
+            <tr>
+              <th scope="col" class="w-10">ID</th>
+              <th scope="col" class="w-auto">Название</th>
+              <th scope="col" class="w-auto">Категория</th>
+              <th scope="col" class="w-auto">Цена</th>
+              <th scope="col" class="w-10"></th>
+              <th scope="col" class="w-10"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="product : ${items}">
+              <th scope="row" th:text="${product.id}"></th>
+              <td th:text="${product.name}"></td>
+              <td th:text="${product.typeName}"></td>
+              <td th:text="${product.price}"></td>
+              <td>
+                <form th:action="@{/admin/product/edit/{id}(id=${product.id})}" method="get">
+                  <button type="submit" class="btn btn-link button-link">Редактировать</button>
+                </form>
+              </td>
+              <td>
+                <form th:action="@{/admin/product/delete/{id}(id=${product.id})}" method="post">
+                  <button type="submit" class="btn btn-link button-link"
+                    onclick="return confirm('Вы уверены?')">Удалить</button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </th:block>
+    </th:block>
+    <th:block th:replace="~{ pagination :: pagination (
+                                        url=${'admin/product'},
+                                        totalPages=${totalPages},
+                                        currentPage=${currentPage}) }" />
+    </th:block>
+  </main>
+</body>
+
+</html>

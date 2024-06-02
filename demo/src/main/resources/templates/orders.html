@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+
+<head>
+    <title>Заказы</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <th:block th:switch="${items.size()}">
+            <h2 th:case="0">Данные отсутствуют</h2>
+            <th:block th:case="*">
+                <table class="table mt-2">
+                    <caption></caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="w-10">ID</th>
+                            <th scope="col" class="w-auto">Дата</th>
+                            <th scope="col" class="w-auto"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="order : ${items}">
+                            <th scope="row" th:text="${order.id}"></th>
+                            <td th:text="${#dates.format(order.date, 'HH:mm dd-MM-yyyy')}"></td>
+                            <td>
+                                <form th:action="@{/orders/details/{id}(id=${order.id})}" method="get">
+                                    <button type="submit" class="btn btn-link button-link">Детали</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </th:block>
+            <th:block th:replace="~{ pagination :: pagination (
+                                                url='',
+                                                totalPages=${totalPages},
+                                                currentPage=${currentPage}) }" />
+            <div class="mt-2 d-flex justify-content-center">
+                <a class="btn btn-primary" href="/cart">Создать заказ</a>
+            </div>
+        </th:block>
+    </main>
+</body>
+
+</html>

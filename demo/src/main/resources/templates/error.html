@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+
+<head>
+    <title>Ошибка</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <ul class="list-group mb-2">
+            <th:block th:if="${#strings.isEmpty(message)}">
+                <li class="list-group-item">
+                    Неизвестная ошибка
+                </li>
+            </th:block>
+            <th:block th:if="${not #strings.isEmpty(message)}">
+                <li class="list-group-item">
+                    <strong>Ошибка:</strong> [[${message}]]
+                </li>
+            </th:block>
+            <th:block th:if="${not #strings.isEmpty(url)}">
+                <li class="list-group-item">
+                    <strong>Адрес:</strong> [[${url}]]
+                </li>
+                <li class="list-group-item">
+                    <strong>Класс исключения:</strong> [[${exception}]]
+                </li>
+                <li class="list-group-item">
+                    [[${method}]] ([[${file}]]:[[${line}]])
+                </li>
+            </th:block>
+        </ul>
+        <a class="btn btn-primary button-fixed-width" href="/">На главную</a>
+    </main>
+</body>
+
+</html>

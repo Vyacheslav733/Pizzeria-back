@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+
+<head>
+    <title>Вход</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <form action="#" th:action="@{/signup}" th:object="${user}" method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">Почта</label>
+                <input type="text" th:field="*{email}" id="email" class="form-control">
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Пароль</label>
+                <input type="password" th:field="*{password}" id="password" class="form-control">
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+            </div>
+            <div class="mb-3">
+                <label for="passwordConfirm" class="form-label">Пароль (подтверждение)</label>
+                <input type="password" th:field="*{passwordConfirm}" id="passwordConfirm" class="form-control">
+                <div th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"
+                    class="invalid-feedback"></div>
+            </div>
+            <div class="mb-3 d-flex flex-row">
+                <button class="btn btn-primary me-2 button-fixed-width" type="submit">Регистрация</button>
+                <a class="btn btn-secondary button-fixed-width" href="/">Отмена</a>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>
+
+</html>

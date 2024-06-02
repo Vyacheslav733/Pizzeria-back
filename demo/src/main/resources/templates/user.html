@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+
+<head>
+    <title>Пользователи</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <th:block th:switch="${items.size()}">
+            <h2 th:case="0">Данные отсутствуют</h2>
+            <th:block th:case="*">
+                <h2>Пользователи</h2>
+                <div>
+                    <a href="/admin/user/create/" class="btn btn-primary">Добавить пользователя</a>
+                </div>
+                <table class="table">
+                    <caption></caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="w-10">ID</th>
+                            <th scope="col" class="w-auto">Логин</th>
+                            <th scope="col" class="w-10"></th>
+                            <th scope="col" class="w-10"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${items}">
+                            <th scope="row" th:text="${user.id}"></th>
+                            <td th:text="${user.login}"></td>
+                            <td>
+                                <form th:action="@{/admin/user/edit/{id}(id=${user.id})}" method="get">
+                                    <input type="hidden" th:name="page" th:value="${page}">
+                                    <button type="submit" class="btn btn-link button-link">Редактировать</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form th:action="@{/admin/user/delete/{id}(id=${user.id})}" method="post">
+                                    <input type="hidden" th:name="page" th:value="${page}">
+                                    <button type="submit" class="btn btn-link button-link"
+                                        onclick="return confirm('Вы уверены?')">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </th:block>
+            <th:block th:replace="~{ pagination :: pagination (
+                                url=${'admin/user'},
+                                totalPages=${totalPages},
+                                currentPage=${currentPage}) }" />
+        </th:block>
+    </main>
+</body>
+
+</html>

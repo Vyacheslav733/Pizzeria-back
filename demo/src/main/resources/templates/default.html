@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">My shop</title>
+    <script type="text/javascript" src="/webjars/bootstrap/5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body class="h-100 d-flex flex-column">
+    <nav class="navbar navbar-expand-md my-navbar" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-cart2 d-inline-block align-top me-1 logo"></i>
+                Магазин
+            </a>
+            <th:block sec:authorize="isAuthenticated()" th:with="userName=${#authentication.name}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar"
+                    aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="main-navbar">
+                    <ul class="navbar-nav me-auto link" th:with="activeLink=${#objects.nullSafe(servletPath, '')}">
+                        <a class="nav-link" href="/orders"
+                            th:classappend="${activeLink.startsWith('/orders') ? 'active' : ''}">
+                            Заказы
+                        </a>
+                        <th:block sec:authorize="hasRole('ADMIN')">
+                            <a class="nav-link" href="/admin/user"
+                                th:classappend="${activeLink.startsWith('/admin/user') ? 'active' : ''}">
+                                Пользователи
+                            </a>
+                            <a class="nav-link" href="/admin/type"
+                                th:classappend="${activeLink.startsWith('/admin/type') ? 'active' : ''}">
+                                Типы
+                            </a>
+                            <a class="nav-link" href="/admin/product"
+                                th:classappend="${activeLink.startsWith('/admin/product') ? 'active' : ''}">
+                                Продукты
+                            </a>
+                            <a class="nav-link" href="/h2-console/" target="_blank">Консоль H2</a>
+                        </th:block>
+                    </ul>
+                    <ul class="navbar-nav" th:if="${not #strings.isEmpty(userName)}">
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="navbar-brand nav-link" onclick="return confirm('Вы уверены?')">
+                                Выход ([[${userName}]])
+                            </button>
+                        </form>
+                        <a class="navbar-brand" href="/cart">
+                            <i class="bi bi-cart2 d-inline-block align-top me-1 logo"></i>
+                            [[${#numbers.formatDecimal(totalCart, 1, 2)}]] &#8381;
+                        </a>
+                    </ul>
+                </div>
+            </th:block>
+        </div>
+    </nav>
+    <main class="container-fluid p-2" layout:fragment="content">
+    </main>
+    <footer class="my-footer mt-auto d-flex flex-shrink-0 justify-content-center align-items-center">
+        Автор, [[${#dates.year(#dates.createNow())}]]
+    </footer>
+</body>
+
+</html>

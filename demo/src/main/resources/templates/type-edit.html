@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+
+<head>
+    <title>Редакторовать тип</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <form action="#" th:action="@{/admin/type/edit/{id}(id=${type.id})}" th:object="${type}"
+            method="post">
+            <div class="mb-3">
+                <label for="id" class="form-label">ID</label>
+                <input type="text" th:value="*{id}" id="id" class="form-control" readonly disabled>
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Название</label>
+                <input type="text" th:field="*{name}" id="name" class="form-control">
+                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="invalid-feedback"></div>
+            </div>
+            <div class="mb-3 d-flex flex-row">
+                <button class="btn btn-primary me-2 button-fixed-width" type="submit">Сохранить</button>
+                <a class="btn btn-secondary button-fixed-width" href="/admin/type">Отмена</a>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>

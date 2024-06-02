@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+
+<head>
+    <title>Корзина</title>
+</head>
+
+<body>
+    <main layout:fragment="content">
+        <div class="d-flex flex-column align-items-center">
+            <div class="mb-2 col-12 col-md-8 col-lg-6 d-flex align-items-center">
+                <strong class="flex-fill">Корзина</strong>
+                <form action="#" th:action="@{/cart/clear}" method="post">
+                    <button type="submit" class="btn btn-danger button-fixed-width"
+                        onclick="return confirm('Вы уверены?')">
+                        <i class="bi bi-x-lg"></i> Очистить
+                    </button>
+                </form>
+            </div>
+            <div class="card col-12 col-md-8 col-lg-6 align-items-center" th:each="cartItem : ${cart}">
+                <div class="card-body col-12 p-2 d-flex flex-row align-items-center justify-content-center">
+                    <div class="col-9">
+                        [[${cartItem.productName}]] ([[${#numbers.formatDecimal(cartItem.productPrice, 1, 2)}]]) *
+                        [[${cartItem.quantity}]]
+                        =
+                        [[${#numbers.formatDecimal(cartItem.productPrice * cartItem.quantity, 1, 2)}]]
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
+                        <div class="col-3 d-flex justify-content-end">
+                            <form action="#"
+                                th:action="@{/cart/toggle-quantity?productId={productId}&isIncrease=true(productId=${cartItem.productId})}"
+                                method="post">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                            </form>
+                            <form action="#"
+                                th:action="@{/cart/toggle-quantity?productId={productId}&isIncrease=false(productId=${cartItem.productId})}"
+                                method="post">
+                                <button class="btn btn-danger">
+                                    <i class="bi bi-dash-lg"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" mb-2 col-12 col-md-8 col-lg-6 d-flex justify-content-end">
+                <!-- suda total -->
+            </div>
+            <div class="mb-2 col-12 col-md-8 col-lg-6 d-flex justify-content-center" th:if="${not #lists.isEmpty(cart)}">
+                <form action="#" th:action="@{/cart/save}" method="post">
+                    <button type="submit" class="btn btn-primary" onclick="return confirm('Вы уверены?')">
+                        Оформить заказ
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="mb-2">
+            <form action="#" th:action="@{/cart}" th:object="${cartItem}" method="post">
+                <input type="text" th:value="*{id}" id="id" class="visually-hidden">
+                <div class="mb-2">
+                    <label for="productId" class="form-label">Товары</label>
+                    <select th:field="*{productId}" id="productId" class="form-select">
+                        <option selected value="">Укажите товар</option>
+                        <option th:each="product : ${products}" th:value="${product.id}">[[${product.name}]]</option>
+                    </select>
+                    <div th:if="${#fields.hasErrors('productId')}" th:errors="*{productId}" class="invalid-feedback"></div>
+                </div>
+                <div class="mb-2">
+                    <label for="quantity" class="form-label">Количество</label>
+                    <input type="number" th:field="*{quantity}" id="quantity" class="form-control" value="0" step="1">
+                    <div th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="invalid-feedback"></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Добавить в корзину</button>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>
+
+</html>
